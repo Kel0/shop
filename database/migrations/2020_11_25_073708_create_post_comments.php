@@ -16,6 +16,7 @@ class CreatePostComments extends Migration
         Schema::create('post_comments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger("post_id")->unsigned();
+            $table->bigInteger("user_id")->unsigned();
             $table->string("content");
             $table->timestamps();
         });
@@ -24,6 +25,11 @@ class CreatePostComments extends Migration
             $table->foreign("post_id")
                     ->references("id")
                     ->on("post")
+                    ->onDelete("CASCADE");
+
+            $table->foreign("user_id")
+                    ->references("id")
+                    ->on("users")
                     ->onDelete("CASCADE");
         });
     }

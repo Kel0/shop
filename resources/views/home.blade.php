@@ -23,7 +23,7 @@
             method: "POST",
             url: "/phorum/post.create",
             headers: {"X-CSRF-TOKEN": "{{ csrf_token() }}"},
-            data: {"content": "Some content"}
+            data: {"content": "Some content", "title": "My title"}
         })
         .then(resp => console.log(resp))
         .catch(err => console.error(err));
@@ -34,7 +34,7 @@
             method: "POST",
             url: "/phorum/post.comment.create",
             headers: {"X-CSRF-TOKEN": "{{ csrf_token() }}"},
-            data: {"post_id": 5, "content": "Some content"}
+            data: {"post_id": 2, "content": "Some content"}
         })
         .then(resp => console.log(resp))
         .catch(err => console.error(err));
@@ -56,7 +56,7 @@
             method: "POST",
             url: "/phorum/post.comment.like_dislike.create",
             headers: {"X-CSRF-TOKEN": "{{ csrf_token() }}"},
-            data: {"post_comment_id": 2, "action_type": "like"}
+            data: {"post_comment_id": 4, "action_type": "like"}
         })
         .then(resp => console.log(resp))
         .catch(err => console.error(err));

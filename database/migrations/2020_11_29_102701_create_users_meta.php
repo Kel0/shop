@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePost extends Migration
+class CreateUsersMeta extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,21 @@ class CreatePost extends Migration
      */
     public function up()
     {
-        Schema::create('post', function (Blueprint $table) {
+        Schema::create('users_meta', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger("user_id")->unsigned();
-            $table->string("category");
-            $table->string("title");
-            $table->string("content");
+            $table->bigInteger("post_id")->unsigned();
+            $table->integer("like")->default(0);
+            $table->integer("dislike")->default(0);
             $table->timestamps();
         });
 
-        Schema::table('post', function ($table) {
+        Schema::table('users_meta', function ($table) {
+            $table->foreign("post_id")
+                    ->references("id")
+                    ->on("post")
+                    ->onDelete("CASCADE");
+
             $table->foreign("user_id")
                     ->references("id")
                     ->on("users")
@@ -37,6 +42,6 @@ class CreatePost extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post');
+        Schema::dropIfExists('users_meta');
     }
 }
