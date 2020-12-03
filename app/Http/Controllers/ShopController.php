@@ -73,4 +73,10 @@ class ShopController extends Controller
 
         return response()->download($file, $product["name"].".pdf", $headers);
     }
+
+    public function delete_product(Request $req)
+    {
+        $status = Product::find($req->item_id)->delete();
+        return back()->with("status", "Successfully deleted.");
+    }
 }

@@ -20,6 +20,10 @@
             <ul>
                 <li class="header-nav__item"><a href="{{ route('phorum') }}">Форум</a></li>
                 <li class="header-nav__item"><a href="{{ route('shop') }}">Магазин</a></li>
+                @guest
+                @else
+                <li class="header-nav__item"><a href="{{ route('admin') }}">Панель управления</a></li>
+                @endguest
             </ul>
             @guest
                 <a href="{{ route('login') }}" class="header-login">

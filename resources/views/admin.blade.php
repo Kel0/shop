@@ -50,20 +50,29 @@
                 <tbody>
                     @foreach($products as $key => $product)
                         <tr>
-                            <td>{{ $key }}</td>
-                            <td>{{ $product->name }}</td>
-                            <td>{{ $product->desc }}</td>
-                            <td>{{ $product->price }}</td>
-                            <td>
-                                <a class="crud-buttons">
-                                    <span class="iconify" data-icon="ant-design:delete-filled" data-inline="false" data-width="30px"></span>
-                                </a>
-                            </td>
+                            <form action="{{ route('delete_product') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="item_id" value="{{ $product->id }}">
+                                <td>{{ $key }}</td>
+                                <td>{{ $product->name }}</td>
+                                <td>{{ $product->desc }}</td>
+                                <td>{{ $product->price }}</td>
+                                <td>
+                                    <button class="crud-buttons" href="#">
+                                        <span class="iconify" data-icon="ant-design:delete-filled" data-inline="false" data-width="30px"></span>
+                                    </button>
+                                </td>
+                            </form>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+        @if ($msg = Session::get("status"))
+            <script>
+                alert("{{ $msg }}");
+            </script>
+        @endif
     </main>
 </div>
 
