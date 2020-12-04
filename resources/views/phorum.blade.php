@@ -193,7 +193,7 @@
                         <tr>
                             <td>${ post.id }</td>
                             <td>${ post.title.slice(0, 30) }...</td>
-                            <td>${ post.created_at }</td>
+                            <td>${ post.date }</td>
                             <td><a class="table-button" id="${ post.id }" onclick="display_modal(this);">More</a></td>
                         </tr>
                     `;
@@ -204,7 +204,7 @@
                         <tr>
                             <td>${ post.id }</td>
                             <td>${ post.title.slice(0, 30) }...</td>
-                            <td>${ post.created_at }</td>
+                            <td>${ post.date }</td>
                             <td><a class="table-button" id="${ post.id }" onclick="display_modal(this);">More</a></td>
                         </tr>
                     `;
@@ -231,7 +231,17 @@
     const render_post = post_id => {
         all_posts.forEach(post => {
             if (post.id == post_id) {
-                document.querySelector("#modal_title").innerText = post.title;
+                let _button = "",
+                    _button_comment = "";
+
+                if ("{{ Auth::user()->type }}" == "admin") { 
+                    _button = `<button onclick="delete_post(this.id);" id="${ post_id }">Delete</button>`;
+                }
+
+                document.querySelector("#modal_title").innerHTML = `
+                    ${ post.title }
+                    ${ _button }
+                `;
                 document.querySelector("#content_desc").innerText = post.content;
 
                 document.querySelector("#post_likes").children[1].innerText = post.likes_and_dislikes.likes ;
@@ -245,14 +255,19 @@
                 block_content.innerHTML = "";
 
                 post.comments.forEach(comment => {
+                    if ("{{ Auth::user()->type }}" == "admin") { 
+                        _button_comment = `<button onclick="delete_comment(this.id, ${ post_id });" id="${ comment.id }">Delete</button>`;
+                    }
+
                     let content = `
                         <div class="content-commentary__item">
                             <div class="commentary-person">
-                                <div class="commentary-photo" style="background: url({{ asset('images/${ comment.user.photo_name }') }})";>
+                                <div class="profile-photo commentary-photo" style="background: url({{ asset('images/${ comment.user.photo_name }') }})";>
 
                                 </div>
                                 <h5 class="commentary-name">
                                     ${ comment.user.name }
+                                    ${ _button_comment }
                                 </h5>
                             </div>
                             <div class="like-dislike">
@@ -273,6 +288,35 @@
                 });
             }
         });
+    }
+
+    const delete_post = async post_id => {
+        await $.ajax({
+            method: "POST",
+            url: "{{ route('delete-post') }}",
+            headers: {"X-CSRF-TOKEN": "{{ csrf_token() }}"},
+            data: {"post_id": post_id}
+        })
+        .then(res => render_questions(
+            document.querySelector("#categ_post_select").value
+        ))
+        .then(() => render_post(post_id))
+        .then(() => close_modal())
+        .catch(err => console.error(err));
+    }
+
+    const delete_comment = async (comment_id, post_id) => {
+        await $.ajax({
+            method: "POST",
+            url: "{{ route('delete-comment') }}",
+            headers: {"X-CSRF-TOKEN": "{{ csrf_token() }}"},
+            data: {"post_comment_id": comment_id}
+        })
+        .then(res => render_questions(
+            document.querySelector("#categ_post_select").value
+        ))
+        .then(() => render_post(post_id))
+        .catch(err => console.error(err));
     }
 </script>
 @endsection

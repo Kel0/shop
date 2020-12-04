@@ -40,11 +40,16 @@ class PostsController extends Controller
         $user_id = $req->user_id;
 
         $posts = Post::with(['likesAndDislikes', 'comments', 'comments.likesAndDislikes', 'user', 'comments.user'])->get()->flatten();
+
         if (!is_null($user_id)) {
             $posts = Post::with(['likesAndDislikes', 'comments', 'comments.likesAndDislikes', 'user', 'comments.user'])
                         ->where("user_id", "=", $user_id)
                         ->get()
                         ->flatten();
+        }
+
+        foreach ($posts as $key => $post) {
+            $posts[$key]->date = date("Y-m-d H:i:s", (strtotime($post->created_at->jsonSerialize()) + 21600));
         }
         
         return response()->json(["posts" => $posts]);
@@ -134,7 +139,18 @@ class PostsController extends Controller
             return response()->json(["status" => "Not correct action type -> ".$action_type]);
         }
         
-        $user_meta = UserMeta::where("post_id", $post_id);
+        $user_meta = UserMeta::where("post_id", $post_id)->where("user_id", Auth::id());
+
+        if (count($user_meta->get()) == 0) {
+            $_user_meta = new UserMeta;
+            $_user_meta->post_id = $post_id;
+            $_user_meta->user_id = Auth::id();
+            $_user_meta->like = 0;
+            $_user_meta->dislike = 0;
+            $_user_meta->save();
+
+            $user_meta = UserMeta::where("post_id", $post_id)->where("user_id", Auth::id());
+        }
         
         $another_action = "like";
         if ($action_type == $another_action) $another_action = "dislike";
@@ -181,7 +197,18 @@ class PostsController extends Controller
             return response()->json(["status" => "Not correct action type -> ".$action_type]);
         }
 
-        $user_meta = UserCommentMeta::where("post_comment_id", $post_comment_id);
+        $user_meta = UserCommentMeta::where("post_comment_id", $post_comment_id)->where("user_id", Auth::id());
+
+        if (count($user_meta->get()) == 0) {
+            $_user_meta = new UserCommentMeta;
+            $_user_meta->post_comment_id = $post_comment_id;
+            $_user_meta->user_id = Auth::id();
+            $_user_meta->like = 0;
+            $_user_meta->dislike = 0;
+            $_user_meta->save();
+
+            $user_meta = UserCommentMeta::where("post_comment_id", $post_comment_id)->where("user_id", Auth::id());
+        }
         
         $another_action = "like";
         if ($action_type == $another_action) $another_action = "dislike";
@@ -211,5 +238,21 @@ class PostsController extends Controller
         
         $likes_and_dislikes = PostCommentLikeAndDislike::where("post_comment_id", $post_comment_id)->get()->flatten();
         return response()->json(["meta" => $likes_and_dislikes]);
+    }
+
+    public function delete_post(Request $req)
+    {
+        $post_id = $req->post_id;
+        $status = Post::find($post_id)->delete();
+
+        return response()->json(["stauts" => $status]);
+    }
+
+    public function delete_comment(Request $req)
+    {
+        $post_comment_id = $req->post_comment_id;
+        $status = PostComment::find($post_comment_id)->delete();
+
+        return response()->json(["status" => $status]);
     }
 }

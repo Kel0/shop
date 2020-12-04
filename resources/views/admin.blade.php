@@ -68,6 +68,28 @@
                 </tbody>
             </table>
         </div>
+        <br>
+        
+        @if($success_change = Session::get("success_change"))
+            <script>
+                alert("{{ $success_change }}");
+            </script>
+        @endif
+        <div class="roles">
+            <form action="{{ route('update-role') }}" method="POST">
+                @csrf
+                <select name="user_id">
+                    @foreach($users as $user)
+                        <option value="{{ $user->id }}">{{ $user->name }} | {{ $user->email }} | Actual role: {{ $user->type }}</option>
+                    @endforeach
+                </select>
+                <select name="role">
+                    <option value="admin">Admin</option>
+                    <option value="default">Default</option>
+                </select>
+                <button class="crud-buttons">Update</button>
+            </form>
+        </div>
         @if ($msg = Session::get("status"))
             <script>
                 alert("{{ $msg }}");

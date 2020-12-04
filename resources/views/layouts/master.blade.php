@@ -22,7 +22,9 @@
                 <li class="header-nav__item"><a href="{{ route('shop') }}">Магазин</a></li>
                 @guest
                 @else
-                <li class="header-nav__item"><a href="{{ route('admin') }}">Панель управления</a></li>
+                    @if (Auth::user()->type == "admin")
+                        <li class="header-nav__item"><a href="{{ route('admin') }}">Панель управления</a></li>
+                    @endif
                 @endguest
             </ul>
             @guest

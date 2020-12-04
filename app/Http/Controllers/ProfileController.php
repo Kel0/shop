@@ -10,6 +10,7 @@ use App\UserMeta;
 use App\PostComment;
 use Validator;
 use File;
+use App\Services\PayUService\Exception;
 use App\UserCommentMeta;
 
 
@@ -52,12 +53,12 @@ class ProfileController extends Controller
     public function image_upload_post(Request $req)
     {
         try {
+            if (!$req->image) return back()->with('error', 'Something went wrong...');
             $image_name = time().'.'.$req->image->getClientOriginalExtension();
             $req->image->move(public_path('images'), $image_name);
             $user = User::find(Auth::id());
 
             $previous_photo = public_path("images/".$user->photo_name);
-            File::delete($previous_photo);
 
             $user->photo_name = $image_name;
             $user->save();
@@ -66,5 +67,16 @@ class ProfileController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Something went wrong...');
         }
+    }
+
+    public function update_role(Request $req) {
+        $user_id = $req->user_id;
+        $role = $req->role;
+
+        $user = User::where("id", $user_id)->update([
+            "type" => $role
+        ]);
+
+        return back()->with('success_change', 'Success. Role has been changed!');
     }
 }

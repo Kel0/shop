@@ -19,7 +19,12 @@ class ShopController extends Controller
     public function index_admin()
     {
         $products = Product::all();
-        return view('admin', ["products" => $products]);
+        $users = User::all();
+
+        return view('admin', [
+            "users" => $users,
+            "products" => $products
+        ]);
     }
 
     public function create_product(Request $req)

@@ -14,6 +14,12 @@
         <img src="images/{{ Session::get('image') }}">
     @endif
 
+    @if ($error = Session::get("error"))
+        <script>
+            alert("{{ $error }}");
+        </script>
+    @endif
+
     <div class="wrapper">
         <main>
             <div class="profile">

@@ -33,3 +33,6 @@ Route::post('/shop/product.purchase', 'ShopController@purchase_product')->name("
 Route::post('/image-upload', 'ProfileController@image_upload_post')->name('image.upload.post');
 Route::post('/product-create', 'ShopController@create_product')->name("product.create");
 Route::post('/product-delete', 'ShopController@delete_product')->name('delete_product');
+Route::post('/update-role', 'ProfileController@update_role')->name('update-role');
+Route::post('/delete-post', 'PostsController@delete_post')->name('delete-post');
+Route::post('/delete-comment', 'PostsController@delete_comment')->name('delete-comment');
