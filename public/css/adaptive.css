@@ -1,0 +1,198 @@
+@media (min-width: 992px) and (max-width: 1365px) {
+  body {
+    font-size: 15px; }
+  .admin {
+    overflow-x: auto; }
+  .ticket-title {
+    font-size: 1.5em;
+    margin-bottom: 1em; }
+  .forum-table {
+    overflow-x: auto; }
+  .products {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap; }
+  .card {
+    min-width: 250px;
+    margin-bottom: 1.5em; } }
+
+@media (min-width: 768px) and (max-width: 991px) {
+  body {
+    font-size: 13px; }
+  .header {
+    padding: 0.4rem 0.5rem; }
+  .admin {
+    overflow-x: auto; }
+  .ticket-title {
+    font-size: 1.5em;
+    margin-bottom: 1em; }
+  .forum-table {
+    overflow-x: auto; }
+  .products {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap; }
+  .card {
+    min-width: 250px;
+    margin-bottom: 1.5em; } }
+
+@media (min-width: 420px) and (max-width: 767px) {
+  body {
+    font-size: 12px; }
+  .admin {
+    overflow-x: auto; }
+  .ticket-title {
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    text-align: center; }
+  .ticket {
+    padding: .8em .5em; }
+  .forum-table {
+    overflow-x: auto; }
+  .products {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center; }
+  .card {
+    min-width: 250px;
+    margin-bottom: 1.5em; }
+  .profile {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap; }
+    .profile .like-dislike {
+      right: .5em; }
+  .written-content {
+    padding: 1em; }
+    .written-content__posts {
+      padding: 0; }
+    .written-content__comments {
+      padding: 0; }
+  .overlay .content {
+    z-index: 4;
+    padding: 1em .6em;
+    overflow-y: scroll; }
+  .overlay.is-on {
+    z-index: 4; } }
+
+  .header-login {
+      font-size: 1.5rem;
+      text-decoration: none;
+  }
+
+  .header-register {
+        font-size: 1.5rem;
+        text-decoration: none;
+  }
+
+@media (min-width: 320px) and (max-width: 419px) {
+  body {
+    font-size: 10px; }
+  .admin {
+    overflow-x: auto; }
+  .ticket {
+    padding: .8em .5em; }
+  .ticket-title {
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    text-align: center; }
+  .forum-table {
+    overflow-x: auto; }
+  .products {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center; }
+  .card {
+    min-width: 250px;
+    margin-bottom: 1.5em; }
+  .profile {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap; }
+    .profile .like-dislike {
+      right: .5em; }
+  .written-content {
+    padding: 1em; }
+    .written-content__posts {
+      padding: 0; }
+    .written-content__comments {
+      padding: 0; }
+  .overlay .like-dislike {
+    right: 10px !important;
+    top: 10px !important; }
+  .overlay .content-commentary__item {
+    padding: 1em 1.5em; }
+  .overlay .content {
+    z-index: 3;
+    padding: 1em .6em;
+    overflow-y: scroll;
+    width: 100%; }
+  .overlay.is-on {
+    z-index: 4; } }
+
+  .header-login {
+    font-size: 1.5rem;
+    text-decoration: none;
+  }
+
+  .header-register {
+      font-size: 1.5rem;
+      text-decoration: none;
+  }
+
+@media (max-width: 760px) {
+  .header {
+    padding: 0.4rem 0.5rem; }
+  .menu-icon {
+    display: -ms-grid !important;
+    display: grid !important;
+    z-index: 3;
+    place-items: center; }
+  .header-nav {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    margin-top: 80px;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    position: absolute;
+    left: -150%;
+    width: 100vw;
+    height: calc(100vh - 80px);
+    -webkit-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+    background: white;
+    z-index: 2;
+    color: black;
+    min-width: unset;
+    top: 0;
+    color: white; }
+    .header-nav button {
+      width: 200px;
+      margin-bottom: 20px; }
+    .header-nav ul {
+      text-align: center;
+      width: 200px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column; }
+      .header-nav ul li {
+        margin-bottom: 20px; }
+      .header-nav ul a {
+        font-size: 1.5rem;
+        color: black; }
+  #menu-btn:checked ~ .header-nav {
+    left: 0; } }

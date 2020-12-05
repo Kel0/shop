@@ -6,16 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
     <title>Cybersport Forum</title>
-
     @yield('static')
+    <link rel="stylesheet" href="{{ asset('css/adaptive.css') }}">
 </head>
 
 <body>
     <header class="header">
-        <a href="/" class="header-logo">
+        <a href="{{ route('phorum') }}" class="header-logo">
             Cybersport academy
         </a>
-
+        <input class="menu-btn" type="checkbox" id="menu-btn" />
+        <label class="menu-icon" for="menu-btn">
+            <span class="navicon"></span>
+        </label>
+        
         <nav class="header-nav">
             <ul>
                 <li class="header-nav__item"><a href="{{ route('phorum') }}">Форум</a></li>
@@ -23,7 +27,9 @@
                 @guest
                 @else
                     @if (Auth::user()->type == "admin")
-                        <li class="header-nav__item"><a href="{{ route('admin') }}">Панель управления</a></li>
+                        <li class="header-nav__item">
+                            <a href="{{ route('admin') }}">Панель управления</a>
+                        </li>
                     @endif
                 @endguest
             </ul>
@@ -35,7 +41,9 @@
                     Зарегистрироватся
                 </a>
             @else
-                <a style="text-decoration: none; color: inherit;" href="profile" class="header-login">{{ Auth::user()->name }}</a>
+                <a href="profile" class="header-login" style="text-decoration: none; color: black;">
+                    {{ Auth::user()->name }}
+                </a>
             @endguest
         </nav>
     </header>

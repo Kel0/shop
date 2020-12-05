@@ -32,7 +32,10 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return view("phorum");
+        $user = Auth::user();
+        $_status = is_null($user) ? 0 : (Auth::user()->type == "admin" ? 1 : 0);
+
+        return view("phorum", ["is_admin" => $_status, "user_id" => is_null($user) ? -1 : $user->id]);
     }
 
     public function posts_get(Request $req)
@@ -243,7 +246,7 @@ class PostsController extends Controller
     public function delete_post(Request $req)
     {
         $post_id = $req->post_id;
-        $status = Post::find($post_id)->delete();
+        $status = Post::where("id", $post_id)->where("user_id", Auth::id())->delete();
 
         return response()->json(["stauts" => $status]);
     }
@@ -251,7 +254,7 @@ class PostsController extends Controller
     public function delete_comment(Request $req)
     {
         $post_comment_id = $req->post_comment_id;
-        $status = PostComment::find($post_comment_id)->delete();
+        $status = PostComment::where("id", $post_comment_id)->where("user_id", Auth::id())->delete();
 
         return response()->json(["status" => $status]);
     }

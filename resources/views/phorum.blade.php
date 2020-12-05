@@ -42,10 +42,12 @@
                     <option value="feedback">Отзыв</option>
                 </select>
             </div>
-            <table class="forum">
-                <thead id="thead"></thead>
-                <tbody id="tbody"></tbody>
-            </table>
+            <div class="forum-table">
+                <table class="forum">
+                    <thead id="thead"></thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
             <div class="overlay">
                 <div class="content" style="overflow-y: auto;">
                     <div id="close" onclick="close_modal();"><span class="iconify" data-icon="ion:close-circle-sharp" data-inline="false" style="color: red;" data-width="30"></span></div>
@@ -171,9 +173,9 @@
         thead.innerHTML = `
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Date</th>
-                <th>More</th>
+                <th>Топик</th>
+                <th>Дата</th>
+                <th>Развернуть</th>
             </tr>
         `;
         tbody.innerHTML = "";
@@ -194,7 +196,7 @@
                             <td>${ post.id }</td>
                             <td>${ post.title.slice(0, 30) }...</td>
                             <td>${ post.date }</td>
-                            <td><a class="table-button" id="${ post.id }" onclick="display_modal(this);">More</a></td>
+                            <td><a class="table-button" id="${ post.id }" onclick="display_modal(this);">Развернуть</a></td>
                         </tr>
                     `;
                 } 
@@ -205,7 +207,7 @@
                             <td>${ post.id }</td>
                             <td>${ post.title.slice(0, 30) }...</td>
                             <td>${ post.date }</td>
-                            <td><a class="table-button" id="${ post.id }" onclick="display_modal(this);">More</a></td>
+                            <td><a class="table-button" id="${ post.id }" onclick="display_modal(this);">Развернуть</a></td>
                         </tr>
                     `;
                 }
@@ -227,14 +229,14 @@
     const close_modal = () => {
         document.querySelector(".overlay").classList.remove("is-on")
     }
-
+    
     const render_post = post_id => {
         all_posts.forEach(post => {
             if (post.id == post_id) {
                 let _button = "",
                     _button_comment = "";
-
-                if ("{{ Auth::user()->type }}" == "admin") { 
+                
+                if (parseInt("{{ $is_admin }}") || post.user.id == parseInt("{{ $user_id }}")) { 
                     _button = `<button onclick="delete_post(this.id);" id="${ post_id }">Delete</button>`;
                 }
 
@@ -255,16 +257,14 @@
                 block_content.innerHTML = "";
 
                 post.comments.forEach(comment => {
-                    if ("{{ Auth::user()->type }}" == "admin") { 
+                    if (parseInt("{{ $is_admin }}") || comment.user_id == parseInt("{{ $user_id }}")) { 
                         _button_comment = `<button onclick="delete_comment(this.id, ${ post_id });" id="${ comment.id }">Delete</button>`;
                     }
 
                     let content = `
                         <div class="content-commentary__item">
                             <div class="commentary-person">
-                                <div class="profile-photo commentary-photo" style="background: url({{ asset('images/${ comment.user.photo_name }') }})";>
-
-                                </div>
+                                <div class="commentary-photo" style="background: url({{ asset('images/${ comment.user.photo_name }') }});";></div>
                                 <h5 class="commentary-name">
                                     ${ comment.user.name }
                                     ${ _button_comment }
