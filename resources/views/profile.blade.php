@@ -30,8 +30,8 @@
                         <button class="profile-button">Logout</button>
                     </form>
                     <p style="padding: 10px 15px;">
-                        {{ $user->name }} 
-                    </p> 
+                      {{ $user->name }} <br> <span style="font-size: 14px;">Будь активен чтобы получать очки!</span>
+                    </p>
                     
                     <form action="{{ route('image.upload.post') }}" method="POST" enctype="multipart/form-data"
                         style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 15px; max-width: 300px;">

@@ -246,7 +246,12 @@ class PostsController extends Controller
     public function delete_post(Request $req)
     {
         $post_id = $req->post_id;
-        $status = Post::where("id", $post_id)->where("user_id", Auth::id())->delete();
+
+        if (Auth::user()->type == "admin") {
+            $status = Post::where("id", $post_id)->delete();
+        } else {
+            $status = Post::where("id", $post_id)->where("user_id", Auth::id())->delete();
+        }
 
         return response()->json(["stauts" => $status]);
     }
@@ -254,8 +259,13 @@ class PostsController extends Controller
     public function delete_comment(Request $req)
     {
         $post_comment_id = $req->post_comment_id;
-        $status = PostComment::where("id", $post_comment_id)->where("user_id", Auth::id())->delete();
 
+        if (Auth::user()->type == "admin") {
+            $status = PostComment::where("id", $post_comment_id)->delete();
+        } else {
+            $status = PostComment::where("id", $post_comment_id)->where("user_id", Auth::id())->delete();
+        }
+        
         return response()->json(["status" => $status]);
     }
 }
