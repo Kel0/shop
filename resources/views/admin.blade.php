@@ -53,7 +53,7 @@
                             <form action="{{ route('delete_product') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="item_id" value="{{ $product->id }}">
-                                <td>{{ $key }}</td>
+                                <td>{{ $key + 1 }}</td>
                                 <td>{{ $product->name }}</td>
                                 <td>{{ $product->desc }}</td>
                                 <td>{{ $product->price }}</td>

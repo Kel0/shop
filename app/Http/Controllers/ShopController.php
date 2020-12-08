@@ -47,6 +47,7 @@ class ShopController extends Controller
         $product->save();
         return back();
     }
+
     public function get_products()
     {
         $products = Product::all();
@@ -60,9 +61,7 @@ class ShopController extends Controller
         $user = Auth::user()->toArray();
 
         if (empty($product)) return response()->json(["status" => "Продукт не был найден..."]);
-        if ((float)$product["price"] > (float)$user["points"]) return response()->json([
-            "status" => "Не достаточно баллов..."
-        ]);
+        if ((float)$product["price"] > (float)$user["points"]) return back()->with("error", "Не достаточно баллов...");
 
         if (is_null($product["file"])) return back()->with('error', 'Something went wrong...');
         $file = public_path("download/".$product["file"]);

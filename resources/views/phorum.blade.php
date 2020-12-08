@@ -153,7 +153,7 @@
     const create_post = async (title, content, category) => {
         await $.ajax({
             method: "POST",
-            url: "/phorum/post.create",
+            url: "{{ route('post_create') }}",
             headers: {"X-CSRF-TOKEN": "{{ csrf_token() }}"},
             data: {"title": title, "content": content, "category": category}
         })
